@@ -6,14 +6,15 @@
 using namespace std;
 
 // Functions
+void showMainMenu(void);
 void map(void);
 void play(int);
-void showMainMenu(void);
 
 // Global Variables
 const short int rows = 5;
 const short int cols = 5;
-const short int numberOfOnes = 5;
+const short int numberofBoats = 5;
+short int boatsLeft = numberofBoats;
 char mapMain[rows][cols];
 char mapCopy[rows][cols];
 
@@ -46,7 +47,7 @@ int main()
             map();
             srand(time(0));
             // Spread Random Boats on Map
-            for (int i = 0; i < numberOfOnes; ++i)
+            for (int i = 0; i < numberofBoats; ++i)
             {
                 int row, col;
                 do
@@ -58,7 +59,7 @@ int main()
                 mapMain[row][col] = '1';
             }
             // Play Area
-            cout << "Captain, you have " << turns << " cannonballs, ENGAGE PRECISELY!" << endl;
+            cout << "Captain, you have " << turns << " cannonballs and "<<numberofBoats<<" targets. ENGAGE PRECISELY!" << endl;
             play(turns);
             break;
         case '2':
@@ -151,13 +152,15 @@ void play(int turns)
         {
             b--;
         }
-        if (mapMain[a][b] == '1')
+        if (mapCopy[a][b] == 'X')
+        {
+            mapCopy[a][b] = 'X';
+        }
+        else if (mapMain[a][b] == '1')
         {
             mapCopy[a][b] = 'X';
             score++;
-        }
-        else if (mapCopy[a][b] = 'X'){
-            
+            boatsLeft--;
         }
         else
         {
@@ -167,5 +170,7 @@ void play(int turns)
         turns--;
         map();
         cout << "Score : " << score << "\n\n";
+        cout << "Boats left: " << boatsLeft << "\n\n";
+        cout << "Turns left: " << turns << "\n\n";
     }
 }
