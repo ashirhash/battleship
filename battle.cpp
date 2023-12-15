@@ -8,12 +8,14 @@ using namespace std;
 // Functions
 void showMainMenu(void);
 void map(void);
-void play(int);
+void resetMap(void);
+void singlePlay(int);
+void compPlay(int);
 
 // Global Variables
 const short int rows = 5;
 const short int cols = 5;
-const short int numberofBoats = 5;
+short int numberofBoats = 5;
 short int boatsLeft = numberofBoats;
 char mapMain[rows][cols];
 char mapCopy[rows][cols];
@@ -35,16 +37,10 @@ int main()
         switch (mainOption)
         {
         case '1':
-            for (int i = 0; i < rows; ++i)
-            {
-                for (int j = 0; j < cols; ++j)
-                {
-                    mapMain[i][j] = ' ';
-                    mapCopy[i][j] = ' ';
-                }
-            }
-            // Initial Mapping
+            // NEW GAME
+            resetMap();
             map();
+
             srand(time(0));
             // Spread Random Boats on Map
             for (int i = 0; i < numberofBoats; ++i)
@@ -59,15 +55,36 @@ int main()
                 mapMain[row][col] = '1';
             }
             // Play Area
-            cout << "Captain, you have " << turns << " cannonballs and "<<numberofBoats<<" targets. ENGAGE PRECISELY!" << endl;
-            play(turns);
+            cout << "Captain, you have " << turns << " cannonballs and " << numberofBoats << " targets. ENGAGE PRECISELY!" << endl;
+            singlePlay(turns);
             break;
+
         case '2':
             cout << "Not released yet.\n\nPress any key to go back =>";
             innerOption = getche();
             system("cls");
             break;
+
         case '3':
+            resetMap();
+            map();
+            cout << "AlG: I accept your challenge  \n";
+
+            for (int i = 0; i < numberofBoats; ++i)
+            {
+                int row, col;
+                do
+                {
+                    row = rand() % rows;
+                    col = rand() % cols;
+                } while (mapMain[row][col] == '1');
+
+                mapMain[row][col] = '1';
+            }
+            compPlay(turns);
+
+            break;
+        case '4':
             cout << "\nINSTRUCTIONS:\n\nA number of ships will randomly be placed on the map. \n\nThe player controls a cannon with using RC(Row Column) coordinates. The goal is to shoot down the ships one by one. \n\nResulting score will be based on the number of ships sunk. \n\nGood Luck, Captain!\n\nPress any key to go back =>";
             innerOption = getche();
             system("cls");
@@ -87,7 +104,22 @@ void showMainMenu()
     cout << "\nMain Menu (Select an option)\n\n";
     cout << "1. Single Player\n\n";
     cout << "2. Multi Player (Coming Soon)\n\n";
-    cout << "3. How To Play\n\n";
+    cout << "3. VS Computer (New Mode)\n\n";
+    cout << "4. How To Play\n\n";
+}
+
+// RESET MAP
+
+void resetMap()
+{
+    for (int i = 0; i < rows; ++i)
+    {
+        for (int j = 0; j < cols; ++j)
+        {
+            mapMain[i][j] = ' ';
+            mapCopy[i][j] = ' ';
+        }
+    }
 }
 
 // MAP
@@ -132,11 +164,11 @@ void map()
     cout << endl;
 }
 
-// PLAY
+// SINGLE PLAY
 
-void play(int turns)
+void singlePlay(int turns)
 {
-    int score = 0;
+    short int score = 0;
 
     while (turns > 0)
     {
@@ -172,5 +204,44 @@ void play(int turns)
         cout << "Score : " << score << "\n\n";
         cout << "Boats left: " << boatsLeft << "\n\n";
         cout << "Turns left: " << turns << "\n\n";
+    }
+}
+
+// VS COMP
+
+void compPlay(int turns)
+{
+    short int score = 0;
+    while (turns > 0)
+    {
+
+        int a, b;
+        do
+        {
+            a = rand() % rows;
+            b = rand() % cols;
+        } while (mapCopy[a][b] == 'X' || mapCopy[a][b] == 'O' );
+
+        if (mapMain[a][b] == '1')
+        {
+            mapCopy[a][b] = 'X';
+            score++;
+            boatsLeft--;
+            turns--;
+        }
+        else
+        {
+            mapCopy[a][b] = 'O';
+            turns--;
+        }
+
+        
+        map();
+        cout << "Score : " << score << "\n\n";
+        cout << "Boats left: " << boatsLeft << "\n\n";
+        cout << "Turns left: " << turns << "\n\n";
+        cout << "Press any key to advance=>";
+        int nextOption;
+        nextOption = getch();
     }
 }
