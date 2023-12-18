@@ -200,7 +200,7 @@ void compPlay(int turns)
     boatsLeft = numberofBoats;
     short int score = 0;
     int row, col;
-    while (turns > 0)
+    do
     {
         system("cls");
         cout << endl;
@@ -237,16 +237,65 @@ void compPlay(int turns)
             }
             cout << endl;
         }
+
         cout << endl;
         cout << "Enter boats to place [for example 1 2] : ";
         cin >> row >> col;
+
         row--;
         col--;
+        if (mapMain[row][col] == '1')
+        {
+            cout << "Boat already exist in that place, place again => ";
+            int nextOption;
+            nextOption = getch();
+
+            continue;
+        }
         mapMain[row][col] = '1';
-        turns--;
+        boatsLeft--;
+    } while (boatsLeft != 0);
+
+    system("cls");
+    cout << endl;
+
+    // Column Count
+    cout << "\t    ";
+    for (int j = 1; j <= cols; j++)
+    {
+        cout << j << "   ";
     }
+    cout << endl
+         << endl;
+
+    for (int i = 0; i < rows; i++)
+    {
+        // Row Count
+        cout << "\t" << i + 1 << "   ";
+
+        // Print Row
+        for (int j = 0; j < cols; j++)
+        {
+            cout << mapMain[i][j] << " | ";
+        }
+
+        // Print Dashes
+        cout << endl
+             << "\t    ";
+        if (i < rows - 1)
+        {
+            for (int j = 0; j < (cols * 4) - 1; j++)
+            {
+                cout << "-";
+            }
+        }
+        cout << endl;
+    }
+    cout << endl;
+
     turns = 10;
-    cout << "Press any key to advance=>";
+    boatsLeft = numberofBoats;
+    cout << "\nStart computer's turn => ";
     int nextOption;
     nextOption = getch();
     while (turns > 0)
@@ -275,7 +324,16 @@ void compPlay(int turns)
         cout << "Score : " << score << "\n\n";
         cout << "Boats left: " << boatsLeft << "\n\n";
         cout << "Turns left: " << turns << "\n\n";
-        cout << "Press any key to advance=>";
+        cout << "Press any key to advance => ";
         nextOption = getch();
+    }
+
+    if (boatsLeft == 0 && turns >= 0)
+    {
+        cout << "\nYou lost, try again!\n";
+    }
+    else
+    {
+        cout << "\n\nCongratulations, you won\n\n";
     }
 }
