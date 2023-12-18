@@ -24,6 +24,7 @@ char mapCopy[rows][cols];
 int main()
 {
     system("cls");
+    srand(time(0));
     int turns = 10;
     char mainOption;
     char innerOption;
@@ -37,25 +38,7 @@ int main()
         switch (mainOption)
         {
         case '1':
-            // NEW GAME
-            resetMap();
-            map();
 
-            srand(time(0));
-            // Spread Random Boats on Map
-            for (int i = 0; i < numberofBoats; ++i)
-            {
-                int row, col;
-                do
-                {
-                    row = rand() % rows;
-                    col = rand() % cols;
-                } while (mapMain[row][col] == '1');
-
-                mapMain[row][col] = '1';
-            }
-            // Play Area
-            cout << "Captain, you have " << turns << " cannonballs and " << numberofBoats << " targets. ENGAGE PRECISELY!" << endl;
             singlePlay(turns);
             break;
 
@@ -66,23 +49,8 @@ int main()
             break;
 
         case '3':
-            resetMap();
-            map();
-            cout << "AlG: I accept your challenge  \n";
 
-            for (int i = 0; i < numberofBoats; ++i)
-            {
-                int row, col;
-                do
-                {
-                    row = rand() % rows;
-                    col = rand() % cols;
-                } while (mapMain[row][col] == '1');
-
-                mapMain[row][col] = '1';
-            }
             compPlay(turns);
-
             break;
         case '4':
             cout << "\nINSTRUCTIONS:\n\nA number of ships will randomly be placed on the map. \n\nThe player controls a cannon with using RC(Row Column) coordinates. The goal is to shoot down the ships one by one. \n\nResulting score will be based on the number of ships sunk. \n\nGood Luck, Captain!\n\nPress any key to go back =>";
@@ -168,9 +136,25 @@ void map()
 
 void singlePlay(int turns)
 {
+    resetMap();
+    map();
+    // reset the boats from other rounds
+    boatsLeft = numberofBoats;
+    for (int i = 0; i < numberofBoats; ++i)
+    {
+        int row, col;
+        do
+        {
+            row = rand() % rows;
+            col = rand() % cols;
+        } while (mapMain[row][col] == '1');
+
+        mapMain[row][col] = '1';
+    }
+    cout << "Captain, you have " << turns << " cannonballs and " << numberofBoats << " targets. ENGAGE PRECISELY!" << endl;
     short int score = 0;
 
-    while (turns > 0)
+    while (turns > 0 && boatsLeft > 0)
     {
         int a, b;
         cout << "Loading the Cannon...\n";
@@ -211,16 +195,68 @@ void singlePlay(int turns)
 
 void compPlay(int turns)
 {
+    resetMap();
+    // reset the boats from other rounds
+    boatsLeft = numberofBoats;
     short int score = 0;
+    int row, col;
     while (turns > 0)
     {
+        system("cls");
+        cout << endl;
 
+        // Column Count
+        cout << "\t    ";
+        for (int j = 1; j <= cols; j++)
+        {
+            cout << j << "   ";
+        }
+        cout << endl
+             << endl;
+
+        for (int i = 0; i < rows; i++)
+        {
+            // Row Count
+            cout << "\t" << i + 1 << "   ";
+
+            // Print Row
+            for (int j = 0; j < cols; j++)
+            {
+                cout << mapMain[i][j] << " | ";
+            }
+
+            // Print Dashes
+            cout << endl
+                 << "\t    ";
+            if (i < rows - 1)
+            {
+                for (int j = 0; j < (cols * 4) - 1; j++)
+                {
+                    cout << "-";
+                }
+            }
+            cout << endl;
+        }
+        cout << endl;
+        cout << "Enter boats to place [for example 1 2] : ";
+        cin >> row >> col;
+        row--;
+        col--;
+        mapMain[row][col] = '1';
+        turns--;
+    }
+    turns = 10;
+    cout << "Press any key to advance=>";
+    int nextOption;
+    nextOption = getch();
+    while (turns > 0)
+    {
         int a, b;
         do
         {
             a = rand() % rows;
             b = rand() % cols;
-        } while (mapCopy[a][b] == 'X' || mapCopy[a][b] == 'O' );
+        } while (mapCopy[a][b] == 'X' || mapCopy[a][b] == 'O');
 
         if (mapMain[a][b] == '1')
         {
@@ -235,13 +271,11 @@ void compPlay(int turns)
             turns--;
         }
 
-        
         map();
         cout << "Score : " << score << "\n\n";
         cout << "Boats left: " << boatsLeft << "\n\n";
         cout << "Turns left: " << turns << "\n\n";
         cout << "Press any key to advance=>";
-        int nextOption;
         nextOption = getch();
     }
 }
