@@ -116,5 +116,5 @@ This project is open-source and available under the [MIT License](https://openso
 
 ## ❤️ Acknowledgments
 
-- Thanks to my professors and classmates for their support.  
+- Thanks to my professors and classmates for their support.
 - Inspired by the classic game of Battleship.
