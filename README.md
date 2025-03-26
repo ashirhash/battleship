@@ -113,7 +113,6 @@ Run the compiled program:
 
 This project is open-source and available under the [MIT License](https://opensource.org/license/mit). Feel free to contribute!
 
-
 ## ❤️ Acknowledgments
 
 - Thanks to my professors and classmates for their support.
