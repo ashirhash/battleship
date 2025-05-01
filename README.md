@@ -111,7 +111,7 @@ Run the compiled program:
 
 ## 📜 License
 
-This project is open-source and available under the [MIT License](https://opensource.org/license/mit). Feel free to contribute.
+This project is open-source and available under the [MIT License](https://opensource.org/license/mit). Feel free to contribute
 
 ## ❤️ Acknowledgments
 
