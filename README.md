@@ -1,7 +1,7 @@
 
 # Battleship: Search and Destroy! 🚢💥
 
-This project is a simple C++ **Battleship** game, developed as part of my first-semester university project. It features a **grid-based naval warfare game** where players take turns to shoot down hidden ships using coordinates. The game includes multiple gameplay modes and is designed to demonstrate basic programming concepts, including loops, arrays, randomization, and user interaction in C++.
+This project is a multiplayer turn based **Battleship** game, developed as part of my first-semester university project, in C++. It features a **grid-based naval warfare game** where players take turns to shoot down hidden ships using coordinates. The game includes multiple gameplay modes and is designed to demonstrate basic programming concepts, including loops, arrays, randomization, and user interaction in C++.
 
 ## 🕹️ Features
 
